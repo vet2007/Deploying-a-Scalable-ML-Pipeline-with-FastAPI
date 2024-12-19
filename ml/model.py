@@ -54,7 +54,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : sklearn.ensemble.RandomForestClassifier
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -65,7 +65,7 @@ def inference(model, X):
     """
     # TODO: implement the function
     preds = model.predict(X)
-    pass
+    return preds
 
 def save_model(model, path):
     """ Serializes model to a file.
@@ -80,7 +80,7 @@ def save_model(model, path):
     # TODO: implement the function
     with open(path, 'wb') as file:
         pickle.dump(model, file)
-    pass
+    
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
@@ -115,7 +115,7 @@ def performance_on_categorical_slice(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-    model : ???
+    model : sklearn.ensemble.RandomForestClassifier
         Model used for the task.
 
     Returns
@@ -127,9 +127,8 @@ def performance_on_categorical_slice(
     """
     # TODO: implement the function
     
-    data_slice = data[data[column_name] == slice_value]    
     X_slice, y_slice, _, _ = process_data(
-        data_slice,
+        data[data[column_name] == slice_value]
         categorical_features=categorical_features,
         label=label,
         training=False,
@@ -137,6 +136,6 @@ def performance_on_categorical_slice(
         lb=lb,
     )
     
-    preds = model.predict(X_slice) # your code here to get prediction on X_slice using the inference function
+    preds = inference(model, X_slice) # your code here to get prediction on X_slice using the inference function
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta
