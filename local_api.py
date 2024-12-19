@@ -36,3 +36,4 @@ r = requests.post("http://127.0.0.1:8000/inference", data=json.dumps(data)) # Yo
 print("Status:", r.status_code)
 # TODO: print the result
 print(r.json())
+
